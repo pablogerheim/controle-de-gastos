@@ -1,0 +1,34 @@
+
+
+// import { createContext, SetStateAction, useState } from "react";
+
+// interface Idados {
+//     "id": number,
+//     "descricao": string,
+//     "categoria": string,
+//     "valor": number,
+//     "mes": string,
+//     "dia": number,
+//     'valormes': number
+// };
+
+// type IarrDados = Idados[];
+
+// type Icontext ={
+//     dados:IarrDados,
+//     setDados:React.Dispatch<SetStateAction<IarrDados | []>>;
+
+// }
+
+// export const AContext = createContext<Icontext | null>(null)
+// export const AProvider = ({children}) => {
+
+//     const [dados, setDados] = useState<IarrDados>([])
+
+
+//     return (
+//         <AContext.Provider value={{dados, setDados }}>
+//             {children}
+//         </AContext.Provider>)
+// }
+
