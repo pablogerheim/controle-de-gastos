@@ -1,0 +1,35 @@
+{
+  "nextId": 6,
+  "users": [
+    {
+      "id": 1,
+      "nome": "Usuário 1",
+      "email": "usuario@email.com",
+      "senha": "1234"
+    },
+    {
+      "id": 2,
+      "nome": "Usuário 2",
+      "email": "usuario2@email.com",
+      "senha": "react"
+    },
+    {
+      "id": 3,
+      "nome": "Usuário 3",
+      "email": "admin",
+      "senha": "admin"
+    },
+    {
+      "id": 4,
+      "email": "aadmin",
+      "senha": "$2b$12$nQ5WjZHZcMaV9glJKwiuVuHn9Gs7qnnXhd6XjAcPfKFCGp/jA12w6",
+      "timestamp": "2022-05-16T00:40:28.137Z"
+    },
+    {
+      "id": 5,
+      "email": "aasdmin",
+      "senha": "$2b$12$st84896/A6wWZuHDOa.76uO.CYGeddHC1fhk/lbO8dza0GGkyYoKy",
+      "timestamp": "2022-05-16T00:42:20.864Z"
+    }
+  ]
+}
