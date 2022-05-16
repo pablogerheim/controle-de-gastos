@@ -9,7 +9,7 @@ async function findUser(email) {
     );
 }
 
-async function create(email, senha) {
+async function createUser(email, senha) {
     let userdb = await baseRepository.readFileUser()
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(senha, salt);
@@ -27,12 +27,43 @@ async function create(email, senha) {
     return user
 }
 
-async function pegar() {
-    const data = await baseRepository.readFileFunction()
+async function compareUser(user, senha) {
+    return await bcrypt.compare(senha, user.senha);
 }
+
+async function createToken(user) {
+    const secret = 'process.env.SECRET';
+    const token = jwt.sign(
+        {
+            id: user._id,
+        },
+        secret
+    );
+    return token
+}
+
+async function allHistory() {
+    return await baseRepository.readFileFunction()
+}
+
+async function historyMonth(month) {
+   const data = await baseRepository.readFileFunction()
+   let monthArr = data.despesas.filter(despesa => despesa.mes === month)
+    return monthArr.sort((a,b)=> a.dia - b.dia)
+  }
+
+  async function deleteSpend(id) {
+    let data = await baseRepository.readFileFunction()
+    data.despesasr = data.despesas.filter(despesa => despesa.id !== id)
+    await baseRepository.writeFileFunction(data)
+   }
 
 export default {
     findUser,
-    create,
-    pegar
+    createUser,
+    compareUser,
+    createToken,
+    allHistory,
+    historyMonth,
+    deleteSpend
 }

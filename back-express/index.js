@@ -2,7 +2,6 @@ import express from "express";
 import winston from "winston";
 import sessaoRoute from "./routes/sessao.routes.js"
 import { promises } from "fs";
-
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "./doc.js"
@@ -20,8 +19,8 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 global.logger = winston.createLogger({
     level: "silly",
     transports: [
-        new(winston.transports.Console)(),
-        new(winston.transports.File)({ filename: "base.log" })
+        new (winston.transports.Console)(),
+        new (winston.transports.File)({ filename: "base.log" })
     ],
     format: combine(
         label({ label: "base" }),
@@ -42,7 +41,7 @@ app.use("/sessao", sessaoRoute);
 
 //http://localhost:3001/sessao/register
 
-app.listen(3001, async() => {
+app.listen(3001, async () => {
     try {
         await readFile(global.fileName);
         logger.info("API Started!");
