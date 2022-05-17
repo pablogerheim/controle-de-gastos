@@ -2,5 +2,6 @@
 (ok) verificar conectividade e buscar total 
 (ok) verificar conectividade e buscar mes especifico
 () deslogar do app
-() criar novo gasto
+() implementar mongoDB
+(ok) criar novo gasto
 (ok) deletar gasto

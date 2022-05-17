@@ -1,16 +1,17 @@
 import express from "express";
 import winston from "winston";
-import sessaoRoute from "./routes/sessao.routes.js"
+import publicRoute from "./routes/public.routes"
+import privateRoute from "./routes/private.routes"
 import { promises } from "fs";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "./doc.js"
+import jwt from 'jsonwebtoken'
 
 
 const { readFile, writeFile } = promises;
 
 global.fileName = "base.json";
-
 
 const { combine, timestamp, label, printf } = winston.format;
 const myFormat = printf(({ level, message, label, timestamp }) => {
@@ -35,11 +36,25 @@ app.use(cors());
 app.use(express.static("public"));
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+//public
+app.use("/login", publicRoute);
+//private
+app.use("/", checkToken, privateRoute);
 
-app.use("/sessao", sessaoRoute);
+function checkToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token) return res.status(401).json({ msg: "Acesso negado!" });
+      try {
+      const secret = 'process.env.SECRET';
+        jwt.verify(token, secret);
+       next();
+    } catch (err) {
+      res.status(400).json({ msg: "O Token é inválido!" });
+    }
+  }
 
-
-//http://localhost:3001/sessao/register
+//http://localhost:3001/login/register
 
 app.listen(3001, async () => {
     try {

@@ -71,9 +71,9 @@ async function getMonth(req, res, next) {
         }
 }
 
-async function deleteSpend(req, res, next) {
+async function deleteSpent(req, res, next) {
     try {
-         await baseService.deleteSpend(req.params.id)
+         await baseService.deleteSpent(req.params.id)
          res.status(200).json({ msg: "Deleção realizada com sucesso!" });
                 logger.info(`DELETE /servce - ${JSON.stringify(account)}`);
         } catch (err) {
@@ -81,10 +81,34 @@ async function deleteSpend(req, res, next) {
         }
 }
 
+async function createSpent(req, res, next) {
+    try {
+        const { descricao, categoria, valor, mes, dia} = req.body;
+
+        if (!descricao) {
+            res.status(422).json({ msg: "A descricao é obrigatório!" });
+        } else if (!categoria) {
+            res.status(422).json({ msg: "A categoria é obrigatória!" });
+        }else if (!valor) {
+            res.status(422).json({ msg: "O valor é obrigatório!" });
+        }else if (!mes) {
+            res.status(422).json({ msg: "O mes é obrigatório!" });
+        }else if (!dia) {
+            res.status(422).json({ msg: "O dia é obrigatório!" });
+        }
+        const spent = await baseService.createSpent(descricao, categoria, valor, mes, dia);
+        res.status(200).json({ msg: "Deleção realizada com sucesso!" }, spend);
+        logger.info(`POST /creat spand - ${JSON.stringify(spent)}`);
+    } catch (err) {
+        res.status(500).json({ msg: " error" });
+    }
+}
+
 export default {
     register,
     login,
     getAll,
     getMonth,
-    deleteSpend
+    deleteSpent,
+    createSpent
 }

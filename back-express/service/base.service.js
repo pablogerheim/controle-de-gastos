@@ -21,7 +21,7 @@ async function createUser(email, senha) {
         "timestamp": new Date
     }
     userdb.nextId++
-        userdb.users.push(user)
+    userdb.users.push(user)
 
     await baseRepository.writeFileUser(userdb)
     return user
@@ -33,12 +33,8 @@ async function compareUser(user, senha) {
 
 async function createToken(user) {
     const secret = 'process.env.SECRET';
-    const token = jwt.sign(
-        {
-            id: user._id,
-        },
-        secret
-    );
+    const token = jwt.sign({id: user._id,}, secret, {expiresIn: 900 // expires in 15min
+ });
     return token
 }
 
@@ -47,16 +43,35 @@ async function allHistory() {
 }
 
 async function historyMonth(month) {
-   const data = await baseRepository.readFileFunction()
-   let monthArr = data.despesas.filter(despesa => despesa.mes === month)
-    return monthArr.sort((a,b)=> a.dia - b.dia)
-  }
+    const data = await baseRepository.readFileFunction()
+    let monthArr = data.despesas.filter(despesa => despesa.mes === month)
+    return monthArr.sort((a, b) => a.dia - b.dia)
+}
 
-  async function deleteSpend(id) {
+async function deleteSpent(id) {
     let data = await baseRepository.readFileFunction()
     data.despesasr = data.despesas.filter(despesa => despesa.id !== id)
     await baseRepository.writeFileFunction(data)
-   }
+}
+
+async function createSpent(descricao, categoria, valor, mes, dia) {
+    let data = await baseRepository.readFileFunction()
+
+    let spent = {
+        "id": nextId,
+        "descricao": descricao,
+        "categoria": categoria,
+        "valor": valor,
+        "mes": mes,
+        "dia": dia
+    }
+
+    data.nextId++
+    data.despesas.push(spent)
+
+    await baseRepository.writeFileFunction(data)
+    return spent
+}
 
 export default {
     findUser,
@@ -65,5 +80,6 @@ export default {
     createToken,
     allHistory,
     historyMonth,
-    deleteSpend
+    deleteSpent,
+    createSpent
 }
