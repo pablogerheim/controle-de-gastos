@@ -3,7 +3,7 @@ import { Tabela } from "./page/Tabela";
 import { Resumo } from "./page/Resumo"
 import { arrMes, arrAno, api } from './data/data';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, Box, Select, InputLabel, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, Button } from "@material-ui/core";
+import { MenuItem, Box, Select, InputLabel, Paper, TableHead, TableContainer, TableBody, Table, Button } from "@material-ui/core";
 import { createStyles, Theme } from '@material-ui/core/styles';
 import { useParams, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
@@ -55,7 +55,7 @@ function Home() {
             if (controle === 0) {
                 setControle(1)
                 setTimeout(async () => {
-                    setDados(await api(selecAno, selecMes))
+                  setDados(await api(selecAno, selecMes))
                 }, 500)
             }
             if (`${selecAno}-${selecMes}` !== mes && controle === 1 && mes !== undefined && controleURL === 1) {

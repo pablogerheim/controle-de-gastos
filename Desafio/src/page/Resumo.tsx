@@ -5,7 +5,7 @@ import { useTotal, IarrDados } from '../data/data';
 
 
 
-function Resumo(dados:IarrDados) {
+function Resumo(dados:IarrDados) { console.log(dados)
 
     let dados1 = useTotal(dados)
     if (dados1 === undefined) {

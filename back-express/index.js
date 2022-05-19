@@ -1,7 +1,7 @@
 import express from "express";
 import winston from "winston";
-import publicRoute from "./routes/public.routes"
-import privateRoute from "./routes/private.routes"
+import publicRoute from "./routes/public.routes.js"
+import privateRoute from "./routes/private.routes.js"
 import { promises } from "fs";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
@@ -39,8 +39,8 @@ app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //public
 app.use("/login", publicRoute);
 //private
-app.use("/", checkToken, privateRoute);
-
+app.use("/private", privateRoute);
+//checkToken,
 function checkToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];

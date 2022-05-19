@@ -16,7 +16,7 @@ function App() {
     setUser(null);
   }
 
-  if (user) {
+  if (!user) {
     return (
     < >
       <Router>

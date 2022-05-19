@@ -106,21 +106,21 @@ function handleResponse(resp: Response) {
 
 async function api(selecAno: string, selecMes: string) {
   console.log('api')
-  let url = `http://localhost:3001/despesas?mes=${selecAno}-${selecMes}&_sort=dia`;
+  let url = `http://localhost:3001/private/month/3/${selecAno}-${selecMes}`;
   let response = await fetch(url);
-  return response.json()
+  return response.json().then(res => res.despesas)
 }
 
 
-
 function useTotal(dados: IarrDados) {
+
   let saude = 0
   let lazer = 0
   let alimentacao = 0
   let moradia = 0
   let transporte = 0
   let outros = 0
-  dados.map(({ categoria, valor }) => {
+  dados.forEach(({ categoria, valor }) => {
     if (categoria === "saude") { saude += valor }
     else if (categoria === "lazer ") { lazer += valor }
     else if (categoria === "alimentacao") { alimentacao += valor }
@@ -139,11 +139,11 @@ function useTotal(dados: IarrDados) {
     "outros": outros,
     "total": total
   }
-
+  console.log(obj)
   return obj
 }
 
-const arrMes = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",]
+const arrMes = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 const arrAno = ['2020', '2021']
 
 export {
