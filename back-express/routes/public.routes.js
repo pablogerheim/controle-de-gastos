@@ -4,7 +4,7 @@ import sessaoController from "../controllers/base.controller.js";
 const router = express.Router();
 
 router.post("/register", sessaoController.register);
-router.post("/login", sessaoController.login);
+router.post("/", sessaoController.login);
 router.delete("/delete/:id",)
 
 router.use((err, req, res, next) => {
@@ -13,3 +13,4 @@ router.use((err, req, res, next) => {
 });
 
 export default router;
+

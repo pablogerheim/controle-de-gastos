@@ -23,8 +23,8 @@ interface ILoginScreenProps {
 export function LoginScreen(props: ILoginScreenProps) {
   const classes = useStyles();
 
-  const [email, setEmail] = useState("danilo@email.com");
-  const [password, setPassword] = useState("1234");
+  const [email, setEmail] = useState("admin");
+  const [password, setPassword] = useState("admin");
   const [error, setError] = useState("");
 
   function signIn(evt: React.FormEvent) {
@@ -40,7 +40,7 @@ export function LoginScreen(props: ILoginScreenProps) {
       <h1>Agenda React</h1>
       <p>
         Digite e-mail e senha para entrar no sistema. Para testar, use o e-mail{" "}
-        <kbd>danilo@email.com</kbd> e a senha <kbd>1234</kbd>.
+        <kbd>admin</kbd> e a senha <kbd>admin</kbd>.
       </p>
       <form onSubmit={signIn}
       >
@@ -67,6 +67,10 @@ export function LoginScreen(props: ILoginScreenProps) {
           <Button type="submit" variant="contained" color="primary">
             Entrar
           </Button>
+        </Box>
+        <Box>
+          <Button><a href="/">Entrar com o Google</a></Button>
+          <Button><a href="/">Entrar com Facebook</a></Button>
         </Box>
       </form>
     </Container>

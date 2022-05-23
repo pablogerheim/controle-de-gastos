@@ -2,18 +2,18 @@ import baseService from "../service/base.service.js";
 
 async function register(req, res, next) {
     try {
-        const { email, senha } = req.body;
+        const { email, password } = req.body;
 
         if (!email) {
             res.status(422).json({ msg: "O email é obrigatório!" });
-        } else if (!senha) {
-            res.status(422).json({ msg: "A senha é obrigatória!" });
+        } else if (!password) {
+            res.status(422).json({ msg: "A password é obrigatória!" });
         }
         const user = await baseService.findUser(email);
         if (user) {
             res.status(422).json({ msg: "Por favor, utilize outro e-mail!" });
         } else {
-            const criatedUser = await baseService.createUser(email, senha)
+            const criatedUser = await baseService.createUser(email, password)
             res.status(201).json({ msg: "Usuário criado com sucesso!" });
         }
         logger.info(`POST /creat account - ${JSON.stringify(criatedUser)}`);
@@ -23,27 +23,29 @@ async function register(req, res, next) {
 }
 
 async function login(req, res, next) {
-    const { email, senha } = req.body;
-
+    const { email, password } = req.body;
+    console.log(req.body)
     if (!email) {
         return res.status(422).json({ msg: "O email é obrigatório!" });
     }
-    if (!senha) {
-        return res.status(422).json({ msg: "A senha é obrigatória!" });
+    if (!password) {
+        return res.status(422).json({ msg: "A password é obrigatória!" });
     }
     const user = await baseService.findUser(email);
+    const id = user.id
+    const nome = user.nome 
     if (!user) {
         return res.status(404).json({ msg: "Usuário não encontrado!" });
     }
-    const checkPassword = baseService.compareUser(user, senha)
+    const checkPassword = baseService.compareUser(user, password)
 
     if (!checkPassword) {
-        return res.status(422).json({ msg: "Senha inválida" });
+        return res.status(422).json({ msg: "password inválida" });
     }
-
+    
     try {
     const token = await baseService.createToken(user)
-        res.status(200).json({ msg: "Autenticação realizada com sucesso!", token });
+        res.status(200).send({ msg: "Autenticação realizada com sucesso!", token, id, nome})
 
         logger.info(`POST /account - ${JSON.stringify(account)}`);
     } catch (err) {

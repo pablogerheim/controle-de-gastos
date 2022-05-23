@@ -79,17 +79,20 @@ function getUserEndpoint(): Promise<IUser> {
 }
 
 function signInEndpoint(email: string, password: string): Promise<IUser> {
-  return fetch(`http://localhost:3001/auth/login`, {
+  return fetch(`http://localhost:3001/login`, {
     credentials: "include",
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Authorization": "Basic",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application / json; charset = utf-8",
     },
     body: JSON.stringify({ email, password }),
   }).then(handleResponse);
 }
 
 function signOutEndpoint(): Promise<IUser> {
+
   return fetch(`http://localhost:3001/auth/logout`, {
     credentials: "include",
     method: "POST",
@@ -105,10 +108,21 @@ function handleResponse(resp: Response) {
 }
 
 async function api(selecAno: string, selecMes: string) {
-  console.log('api')
   let url = `http://localhost:3001/private/month/3/${selecAno}-${selecMes}`;
-  let response = await fetch(url);
-  return response.json().then(res => res.despesas)
+  let response = await fetch(url, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+
+      "Cookie": "connect.sid = s % 3AdSHBP8 - ccgTLyXKoG7GIrswcQCyAMhok.I7QsZWZzLSw5pj28SFluXOqNN0iw6e0Y % 2BYFVzj42F4s",
+
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTMyNDEzNTgsImV4cCI6MTY1MzI0MjI1OH0.ooi_KMUHdLGQm37eI1fzqmO95y8_xOwWBuDNOl5DNRc",
+      "Accept": " */*",
+      "Content-Length": "0"
+    }
+  });
+  return response.json()
 }
 
 
@@ -121,11 +135,11 @@ function useTotal(dados: IarrDados) {
   let transporte = 0
   let outros = 0
   dados.forEach(({ categoria, valor }) => {
-    if (categoria === "saude") { saude += valor }
-    else if (categoria === "lazer ") { lazer += valor }
-    else if (categoria === "alimentacao") { alimentacao += valor }
-    else if (categoria === "moradia") { moradia += valor }
-    else if (categoria === "transporte") { transporte += valor }
+    if (categoria === "Saúde") { saude += valor }
+    else if (categoria === "Lazer") { lazer += valor }
+    else if (categoria === "Alimentação") { alimentacao += valor }
+    else if (categoria === "Moradia") { moradia += valor }
+    else if (categoria === "Transporte") { transporte += valor }
     else outros += valor
   })
 
@@ -139,7 +153,7 @@ function useTotal(dados: IarrDados) {
     "outros": outros,
     "total": total
   }
-  console.log(obj)
+
   return obj
 }
 

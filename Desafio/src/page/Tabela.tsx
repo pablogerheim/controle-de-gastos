@@ -1,11 +1,5 @@
-import { Box } from '@material-ui/core';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import { Box, TableCell, TableRow, TableBody, TableHead } from '@material-ui/core';
 import { Idados, IarrDados } from "../data/data"
-
-
-
-
 
 
 function Tabela(dados: IarrDados) {
@@ -27,13 +21,14 @@ function Tabela(dados: IarrDados) {
         return <Box> Não foi encontrado valores para este periodo </Box>
     }
     return (
-        <>
-            <TableRow>
+        <>                
+            <TableHead >
                 <TableCell>Despesa</TableCell>
                 <TableCell align="right">Categoria</TableCell>
                 <TableCell align="right">Dia</TableCell>
                 <TableCell align="right">Valor(R$)</TableCell>
-            </TableRow>
+            </TableHead>
+            <TableBody>
             {dados.map((item: Idados) => (
 
                 <Linha
@@ -44,7 +39,7 @@ function Tabela(dados: IarrDados) {
                     dia={item.dia}
                     valor={item.valor}
                 />
-            ))}
+            ))}</TableBody>
         </>
 
     )
