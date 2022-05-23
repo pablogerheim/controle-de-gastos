@@ -9,14 +9,15 @@ function App() {
   const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
-    getUserEndpoint().then(setUser, onSignOut);
+    getUserEndpoint()
+    //.then(setUser, onSignOut);
   }, []);
 
   function onSignOut() {
     setUser(null);
   }
 
-  if (user) {
+  if (!user) {
     return (
     < >
       <Router>

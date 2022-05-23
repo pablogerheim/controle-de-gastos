@@ -1,0 +1,59 @@
+function getCalendarsEndpoint(): Promise<ICalendar[]> {
+  return fetch("http://localhost:3001/calendars", {
+    credentials: "include",
+  }).then(handleResponse);
+}
+
+function getEventsEndpoint(from: string, to: string): Promise<IEvent[]> {
+  return fetch(`http://localhost:3001/events?date_gte=${from}&date_lte=${to}&_sort=date,time`, {
+    credentials: "include",
+  }).then(handleResponse);
+}
+
+function createEventEndpoint(event: IEditingEvent): Promise<IEvent> {
+  return fetch(`http://localhost:3001/events`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(event),
+  }).then(handleResponse);
+}
+
+function updateEventEndpoint(event: IEditingEvent): Promise<IEvent> {
+  return fetch(`http://localhost:3001/events/${event.id}`, {
+    credentials: "include",
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(event),
+  }).then(handleResponse);
+}
+
+function deleteEventEndpoint(eventId: number): Promise<void> {
+  return fetch(`http://localhost:3001/events/${eventId}`, {
+    credentials: "include",
+    method: "DELETE",
+  }).then(handleResponse);
+}
+
+function getUserEndpoint(): Promise<IUser> {
+  return fetch(`http://localhost:3001/auth/user`, {
+    credentials: "include",
+  }).then(handleResponse);
+}
+
+function signOutEndpoint(): Promise<IUser> {
+
+  return fetch(`http://localhost:3001/auth/logout`, {
+    credentials: "include",
+    method: "POST",
+  }).then(handleResponse);
+}
+
+
+
+res.header("Access-Control-Allow-Origin", "*");
+res.header("Access-Control-Allow-Headers", "Origin, X-Request-Width, Content-Type, Accept");

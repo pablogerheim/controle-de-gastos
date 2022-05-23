@@ -8,6 +8,7 @@ import { createStyles, Theme } from '@material-ui/core/styles';
 import { useParams, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { Idados, IarrDados } from "./data/data"
+import "./Home.css"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -132,6 +133,7 @@ function Home() {
                     </Box>
                 <Box display={"flex"} justifyContent={"center"} gridGap={'10px'} width={"100%"} boxShadow={' inherit'}
                 paddingBottom={'7px'} >
+                    <Button variant="contained" id="newSpend" type="button" onClick={() => console.log("ola")}>Novo Gasto</Button>
                         <Button variant="contained" type="button" onClick={() => setAba(false)}>Resumo</Button>
                         <Button variant="contained" type="button" onClick={() => setAba(true)}>Detalhes</Button>
                     </Box>

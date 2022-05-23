@@ -31,75 +31,19 @@ interface Idados {
 
 type IarrDados = Idados[];
 
-function getCalendarsEndpoint(): Promise<ICalendar[]> {
-  return fetch("http://localhost:3001/calendars", {
-    credentials: "include",
-  }).then(handleResponse);
-}
-
-function getEventsEndpoint(from: string, to: string): Promise<IEvent[]> {
-  return fetch(`http://localhost:3001/events?date_gte=${from}&date_lte=${to}&_sort=date,time`, {
-    credentials: "include",
-  }).then(handleResponse);
-}
-
-function createEventEndpoint(event: IEditingEvent): Promise<IEvent> {
-  return fetch(`http://localhost:3001/events`, {
+async function signInEndpoint(email: string, password: string): Promise<IUser> {
+  return await fetch(`http://localhost:3001/login`, {
     credentials: "include",
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(event),
-  }).then(handleResponse);
-}
-
-function updateEventEndpoint(event: IEditingEvent): Promise<IEvent> {
-  return fetch(`http://localhost:3001/events/${event.id}`, {
-    credentials: "include",
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(event),
-  }).then(handleResponse);
-}
-
-function deleteEventEndpoint(eventId: number): Promise<void> {
-  return fetch(`http://localhost:3001/events/${eventId}`, {
-    credentials: "include",
-    method: "DELETE",
-  }).then(handleResponse);
-}
-
-function getUserEndpoint(): Promise<IUser> {
-  return fetch(`http://localhost:3001/auth/user`, {
-    credentials: "include",
-  }).then(handleResponse);
-}
-
-function signInEndpoint(email: string, password: string): Promise<IUser> {
-  return fetch(`http://localhost:3001/login`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Authorization": "Basic",
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application / json; charset = utf-8",
+      "Content-Type": "application/json; charset = utf-8",
     },
     body: JSON.stringify({ email, password }),
   }).then(handleResponse);
 }
 
-function signOutEndpoint(): Promise<IUser> {
-
-  return fetch(`http://localhost:3001/auth/logout`, {
-    credentials: "include",
-    method: "POST",
-  }).then(handleResponse);
-}
-
 function handleResponse(resp: Response) {
+  console.log(resp)
   if (resp.ok) {
     return resp.json();
   } else {
@@ -114,17 +58,11 @@ async function api(selecAno: string, selecMes: string) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-
-      "Cookie": "connect.sid = s % 3AdSHBP8 - ccgTLyXKoG7GIrswcQCyAMhok.I7QsZWZzLSw5pj28SFluXOqNN0iw6e0Y % 2BYFVzj42F4s",
-
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTMyNDEzNTgsImV4cCI6MTY1MzI0MjI1OH0.ooi_KMUHdLGQm37eI1fzqmO95y8_xOwWBuDNOl5DNRc",
-      "Accept": " */*",
-      "Content-Length": "0"
     }
   });
+  console.log(response)
   return response.json()
 }
-
 
 function useTotal(dados: IarrDados) {
 
@@ -160,19 +98,26 @@ function useTotal(dados: IarrDados) {
 const arrMes = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 const arrAno = ['2020', '2021']
 
+function getUserEndpoint() {
+  return false
+}
+function signOutEndpoint() {
+  return false
+}
+
 export {
   arrMes,
   arrAno,
-  api,
   useTotal,
-  getCalendarsEndpoint,
-  getEventsEndpoint,
-  createEventEndpoint,
-  updateEventEndpoint,
-  deleteEventEndpoint,
-  getUserEndpoint,
+  api,
   signInEndpoint,
-  signOutEndpoint
+  // getCalendarsEndpoint,
+  // getEventsEndpoint,
+  // createEventEndpoint,
+  // updateEventEndpoint,
+  // deleteEventEndpoint,
+   getUserEndpoint,
+   signOutEndpoint
 }
 export type {
   ICalendar,

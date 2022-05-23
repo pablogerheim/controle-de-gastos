@@ -36,10 +36,16 @@ app.use(cors());
 app.use(express.static("public"));
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+let corsOptions = {
+    origin: [ 'http://localhost:3001', 'http://localhost:3000','http://127.0.0.1:5500' ]
+};
+
+//teste
+app.use("/", (req, res)=> {res.json(req)})
 //public
-app.use("/login", publicRoute);
+app.use("/login",cors(corsOptions), publicRoute);
 //private
-app.use("/private", checkToken, privateRoute);
+app.use("/private", cors(corsOptions), checkToken, privateRoute);
 //checkToken,
 function checkToken(req, res, next) {
     const authHeader = req.headers["authorization"];
