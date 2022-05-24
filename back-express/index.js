@@ -30,22 +30,22 @@ global.logger = winston.createLogger({
     )
 });
 
+const corsOptions = {
+    credentials: true,
+    origin: '*'
+}
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.static("public"));
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-let corsOptions = {
-    origin: [ 'http://localhost:3001', 'http://localhost:3000','http://127.0.0.1:5500' ]
-};
 
-//teste
-app.use("/", (req, res)=> {res.json(req)})
 //public
-app.use("/login",cors(corsOptions), publicRoute);
+app.use("/login", publicRoute);
 //private
-app.use("/private", cors(corsOptions), checkToken, privateRoute);
+app.use("/private", checkToken, privateRoute);
 //checkToken,
 function checkToken(req, res, next) {
     const authHeader = req.headers["authorization"];

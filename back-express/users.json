@@ -1,41 +1,19 @@
 {
-  "nextId": 7,
+  "nextId": 3,
   "users": [
     {
       "id": 1,
-      "nome": "Usuário 1",
-      "email": "usuario@email.com",
-      "password": "1234"
+      "name": "pablo",
+      "email": "pabloemail",
+      "senha": "$2b$12$y0kEPy3gb1fcCpQrAA.HxekvDtXUaOmmWZhVB/ybZAHwJPQIdZMw6",
+      "timestamp": "2022-05-24T13:44:04.476Z"
     },
     {
       "id": 2,
-      "nome": "Usuário 2",
-      "email": "usuario2@email.com",
-      "password": "react"
-    },
-    {
-      "id": 3,
-      "nome": "Usuário 3",
+      "name": "Admin",
       "email": "admin",
-      "password": "admin"
-    },
-    {
-      "id": 4,
-      "email": "aadmin",
-      "password": "$2b$12$nQ5WjZHZcMaV9glJKwiuVuHn9Gs7qnnXhd6XjAcPfKFCGp/jA12w6",
-      "timestamp": "2022-05-16T00:40:28.137Z"
-    },
-    {
-      "id": 5,
-      "email": "aasdmin",
-      "password": "$2b$12$st84896/A6wWZuHDOa.76uO.CYGeddHC1fhk/lbO8dza0GGkyYoKy",
-      "timestamp": "2022-05-16T00:42:20.864Z"
-    },
-    {
-      "id": 6,
-      "email": "admim",
-      "senha": "$2b$12$sXUJi3B80W9nu7dgO9lUs.kAQHie/qre7scKlWiO0Vp2cmL3TgzXG",
-      "timestamp": "2022-05-22T19:26:23.313Z"
+      "senha": "$2b$12$LaKhzwNUngRCp6u6HlTu7O21BiVoiHb08QAMW.7WjYZw0YfeYUV.O",
+      "timestamp": "2022-05-24T13:44:27.299Z"
     }
   ]
 }

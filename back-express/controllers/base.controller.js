@@ -2,9 +2,11 @@ import baseService from "../service/base.service.js";
 
 async function register(req, res, next) {
     try {
-        const { email, password } = req.body;
+        const { name, email, password } = req.body;
 
-        if (!email) {
+        if (!name) {
+            res.status(422).json({ msg: "O nome é obrigatório!" });
+        } else if (!email) {
             res.status(422).json({ msg: "O email é obrigatório!" });
         } else if (!password) {
             res.status(422).json({ msg: "A password é obrigatória!" });
@@ -13,7 +15,7 @@ async function register(req, res, next) {
         if (user) {
             res.status(422).json({ msg: "Por favor, utilize outro e-mail!" });
         } else {
-            const criatedUser = await baseService.createUser(email, password)
+            const criatedUser = await baseService.createUser(name, email, password)
             res.status(201).json({ msg: "Usuário criado com sucesso!" });
         }
         logger.info(`POST /creat account - ${JSON.stringify(criatedUser)}`);
@@ -33,7 +35,7 @@ async function login(req, res, next) {
     }
     const user = await baseService.findUser(email);
     const id = user.id
-    const nome = user.nome 
+    const name = user.name 
     if (!user) {
         return res.status(404).json({ msg: "Usuário não encontrado!" });
     }
@@ -45,7 +47,7 @@ async function login(req, res, next) {
     
     try {
     const token = await baseService.createToken(user)
-        res.status(200).send({ msg: "Autenticação realizada com sucesso!", token, id, nome})
+        res.status(200).send({ msg: "Autenticação realizada com sucesso!", token, id, name})
 
         logger.info(`POST /account - ${JSON.stringify(account)}`);
     } catch (err) {

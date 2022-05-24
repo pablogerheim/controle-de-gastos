@@ -9,13 +9,14 @@ async function findUser(email) {
     );
 }
 
-async function createUser(email, senha) {
+async function createUser(name, email, senha) {
     let userdb = await baseRepository.readFileUser()
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(senha, salt);
 
     let user = {
         "id": userdb.nextId,
+        "name": name,
         "email": email,
         "senha": passwordHash,
         "timestamp": new Date

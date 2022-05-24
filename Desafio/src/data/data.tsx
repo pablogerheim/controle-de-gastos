@@ -30,34 +30,52 @@ interface Idados {
 };
 
 type IarrDados = Idados[];
+let currentToken;
 
 async function signInEndpoint(email: string, password: string): Promise<IUser> {
   return await fetch(`http://localhost:3001/login`, {
     credentials: "include",
     method: "POST",
+    mode:'cors',
     headers: {
       "Content-Type": "application/json; charset = utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+      "X-Powered-By": "Express"
     },
     body: JSON.stringify({ email, password }),
   }).then(handleResponse);
 }
 
+
 function handleResponse(resp: Response) {
   console.log(resp)
   if (resp.ok) {
-    return resp.json();
+    let respSuport = resp.json()
+    console.log(respSuport)
+    if(respSuport){
+      currentToken = respSuport
+    } 
+    return respSuport
   } else {
     throw new Error(resp.statusText);
   }
 }
 
 async function api(selecAno: string, selecMes: string) {
-  let url = `http://localhost:3001/private/month/3/${selecAno}-${selecMes}`;
+  console.log(currentToken)
+  console.log(currentToken.toString)
+  let url = `http://localhost:3001/private/month/2/${selecAno}-${selecMes}`;
   let response = await fetch(url, {
     credentials: "include",
     method: "POST",
+    mode:'cors',
     headers: {
-      "Content-Type": "application/json",
+      "authorization": currentToken, 
+      "Content-Type": "application/json; charset = utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+      "X-Powered-By": "Express"
     }
   });
   console.log(response)
