@@ -7,7 +7,7 @@ async function readFileUser() {
 }
 
 async function writeFileUser(obj) {
-    await writeFile('users.json', JSON.stringify(obj, null, 2))
+    await writeFile("users.json", JSON.stringify(obj, null, 2))
 }
 
 async function readFileFunction() {
@@ -15,7 +15,7 @@ async function readFileFunction() {
 }
 
 async function writeFileFunction(obj) {
-    await writeFile('db.json', JSON.stringify(obj, null, 2))
+    await writeFile("db.json", JSON.stringify(obj, null, 2))
 }
 
 export default {

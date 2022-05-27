@@ -1,8 +1,10 @@
-import { Box, TableCell, TableRow, TableBody, TableHead } from '@material-ui/core';
+import { Box, TableCell, TableRow, TableBody, TableHead, Table } from '@material-ui/core';
 import { Idados, IarrDados } from "../data/data"
+//import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
 
-function Tabela(dados: IarrDados) {
+
+function Tabela(dados: IarrDados, classes:any) {
 
     function Linha(item: Idados) {
 
@@ -20,8 +22,10 @@ function Tabela(dados: IarrDados) {
     if (dados.length === 0) {
         return <Box> Não foi encontrado valores para este periodo </Box>
     }
+    //const classes = useStyles();
     return (
-        <>                
+        <>  
+        <Table className={classes.table} size="small" aria-label="a dense table"></Table>              
             <TableHead >
                 <TableCell>Despesa</TableCell>
                 <TableCell align="right">Categoria</TableCell>
@@ -40,6 +44,7 @@ function Tabela(dados: IarrDados) {
                     valor={item.valor}
                 />
             ))}</TableBody>
+            <Table/>
         </>
 
     )

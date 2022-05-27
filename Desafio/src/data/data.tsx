@@ -17,8 +17,10 @@ interface IEvent extends IEditingEvent {
 }
 
 interface IUser {
+  id: number;
   name: string;
   email: string;
+  token: string;
 }
 interface Idados {
   "id": number,
@@ -30,56 +32,51 @@ interface Idados {
 };
 
 type IarrDados = Idados[];
-let currentToken;
+let currentIuser : IUser
 
-async function signInEndpoint(email: string, password: string): Promise<IUser> {
-  return await fetch(`http://localhost:3001/login`, {
+async function signInEndpoint(email: string, password: string): Promise<any> {
+  let helperPromise = await fetch(`http://localhost:3001/login`, {
     credentials: "include",
     method: "POST",
-    mode:'cors',
+    mode: "cors",
     headers: {
       "Content-Type": "application/json; charset = utf-8",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": "true",
-      "X-Powered-By": "Express"
     },
     body: JSON.stringify({ email, password }),
   }).then(handleResponse);
+  console.log( helperPromise)
+  return helperPromise
 }
 
 
-function handleResponse(resp: Response) {
-  console.log(resp)
+ function handleResponse(resp: any) {
   if (resp.ok) {
-    let respSuport = resp.json()
-    console.log(respSuport)
-    if(respSuport){
-      currentToken = respSuport
-    } 
-    return respSuport
+    return resp
   } else {
     throw new Error(resp.statusText);
   }
 }
 
 async function api(selecAno: string, selecMes: string) {
-  console.log(currentToken)
-  console.log(currentToken.toString)
-  let url = `http://localhost:3001/private/month/2/${selecAno}-${selecMes}`;
+  // console.log(currentIuser)
+  // let {id, token} = currentIuser
+  // console.log(id)
+  // console.log(token)
+  let url = `http://localhost:3001/private/month/${2}/${selecAno}-${selecMes}`;
   let response = await fetch(url, {
     credentials: "include",
-    method: "POST",
-    mode:'cors',
+    method: "GET",
+    mode: "cors",
     headers: {
-      "authorization": currentToken, 
+      "Authorization":`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTM1MDE0NDksImV4cCI6MTY1MzU5MTQ0OX0._P3eEDylTdLkjNZUE1WNsc9bTSTAiBZMFKUiuj0tcfU`,
       "Content-Type": "application/json; charset = utf-8",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": "true",
-      "X-Powered-By": "Express"
     }
-  });
-  console.log(response)
-  return response.json()
+  }).then(handleResponse).then(res => res.json()).then(res =>{ console.log(res); return res});
+ return response
 }
 
 function useTotal(dados: IarrDados) {
@@ -134,8 +131,8 @@ export {
   // createEventEndpoint,
   // updateEventEndpoint,
   // deleteEventEndpoint,
-   getUserEndpoint,
-   signOutEndpoint
+  getUserEndpoint,
+  signOutEndpoint
 }
 export type {
   ICalendar,

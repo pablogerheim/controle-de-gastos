@@ -26,7 +26,6 @@ async function register(req, res, next) {
 
 async function login(req, res, next) {
     const { email, password } = req.body;
-    console.log(req.body)
     if (!email) {
         return res.status(422).json({ msg: "O email é obrigatório!" });
     }
@@ -35,7 +34,7 @@ async function login(req, res, next) {
     }
     const user = await baseService.findUser(email);
     const id = user.id
-    const name = user.name 
+    const name = user.name
     if (!user) {
         return res.status(404).json({ msg: "Usuário não encontrado!" });
     }
@@ -44,10 +43,10 @@ async function login(req, res, next) {
     if (!checkPassword) {
         return res.status(422).json({ msg: "password inválida" });
     }
-    
+
     try {
-    const token = await baseService.createToken(user)
-        res.status(200).send({ msg: "Autenticação realizada com sucesso!", token, id, name})
+        const token = await baseService.createToken(user)
+        res.status(200).send({ id, name, email, token })
 
         logger.info(`POST /account - ${JSON.stringify(account)}`);
     } catch (err) {
@@ -58,46 +57,47 @@ async function login(req, res, next) {
 async function getAll(req, res, next) {
     try {
         const data = await baseService.allHistory()
-         res.status(200).send(data);
-                logger.info(`POST /account - ${JSON.stringify(account)}`);
-        } catch (err) {
-            next(err);
-        }
+        res.status(200).send(data);
+        logger.info(`POST /account - ${JSON.stringify(account)}`);
+    } catch (err) {
+        next(err);
+    }
 }
 
 async function getMonth(req, res, next) {
     try {
         const data = await baseService.historyMonth(req.params.anoMes)
-         res.status(200).send(data);
-                logger.info(`POST /account - ${JSON.stringify(account)}`);
-        } catch (err) {
-            next(err);
-        }
+        console.log(data)
+        res.status(200).send(data);
+        logger.info(`POST /account - ${JSON.stringify(data)}`);
+    } catch (err) {
+        next(err);
+    }
 }
 
 async function deleteSpent(req, res, next) {
     try {
-         await baseService.deleteSpent(req.params.id)
-         res.status(200).json({ msg: "Deleção realizada com sucesso!" });
-                logger.info(`DELETE /servce - ${JSON.stringify(account)}`);
-        } catch (err) {
-            next(err);
-        }
+        await baseService.deleteSpent(req.params.id)
+        res.status(200).json({ msg: "Deleção realizada com sucesso!" });
+        logger.info(`DELETE /servce - ${JSON.stringify(account)}`);
+    } catch (err) {
+        next(err);
+    }
 }
 
 async function createSpent(req, res, next) {
     try {
-        const { descricao, categoria, valor, mes, dia} = req.body;
+        const { descricao, categoria, valor, mes, dia } = req.body;
 
         if (!descricao) {
             res.status(422).json({ msg: "A descricao é obrigatório!" });
         } else if (!categoria) {
             res.status(422).json({ msg: "A categoria é obrigatória!" });
-        }else if (!valor) {
+        } else if (!valor) {
             res.status(422).json({ msg: "O valor é obrigatório!" });
-        }else if (!mes) {
+        } else if (!mes) {
             res.status(422).json({ msg: "O mes é obrigatório!" });
-        }else if (!dia) {
+        } else if (!dia) {
             res.status(422).json({ msg: "O dia é obrigatório!" });
         }
         const spent = await baseService.createSpent(descricao, categoria, valor, mes, dia);

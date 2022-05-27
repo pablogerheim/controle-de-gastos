@@ -57,3 +57,7 @@ function signOutEndpoint(): Promise<IUser> {
 
 res.header("Access-Control-Allow-Origin", "*");
 res.header("Access-Control-Allow-Headers", "Origin, X-Request-Width, Content-Type, Accept");
+
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+      "X-Powered-By": "Express"

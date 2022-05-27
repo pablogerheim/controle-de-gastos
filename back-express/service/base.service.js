@@ -9,33 +9,34 @@ async function findUser(email) {
     );
 }
 
-async function createUser(name, email, senha) {
+async function createUser(name, email, password) {
     let userdb = await baseRepository.readFileUser()
     const salt = await bcrypt.genSalt(12);
-    const passwordHash = await bcrypt.hash(senha, salt);
+    const passwordHash = await bcrypt.hash(password, salt);
 
     let user = {
         "id": userdb.nextId,
         "name": name,
         "email": email,
-        "senha": passwordHash,
+        "password": passwordHash,
         "timestamp": new Date
     }
     userdb.nextId++
-    userdb.users.push(user)
+        userdb.users.push(user)
 
     await baseRepository.writeFileUser(userdb)
     return user
 }
 
-async function compareUser(user, senha) {
-    return await bcrypt.compare(senha, user.senha);
+async function compareUser(user, password) {
+    return await bcrypt.compare(password, user.password);
 }
 
 async function createToken(user) {
     const secret = 'process.env.SECRET';
-    const token = jwt.sign({id: user._id,}, secret, {expiresIn: 900 // expires in 15min
- });
+    const token = jwt.sign({ id: user._id, }, secret, {
+        expiresIn: 90000 // expires in 15min
+    });
     return token
 }
 
@@ -68,7 +69,7 @@ async function createSpent(descricao, categoria, valor, mes, dia) {
     }
 
     data.nextId++
-    data.despesas.push(spent)
+        data.despesas.push(spent)
 
     await baseRepository.writeFileFunction(data)
     return spent

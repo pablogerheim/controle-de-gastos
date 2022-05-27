@@ -1,19 +1,18 @@
 {
-  "nextId": 3,
-  "users": [
-    {
-      "id": 1,
-      "name": "pablo",
-      "email": "pabloemail",
-      "senha": "$2b$12$y0kEPy3gb1fcCpQrAA.HxekvDtXUaOmmWZhVB/ybZAHwJPQIdZMw6",
-      "timestamp": "2022-05-24T13:44:04.476Z"
-    },
-    {
-      "id": 2,
-      "name": "Admin",
-      "email": "admin",
-      "senha": "$2b$12$LaKhzwNUngRCp6u6HlTu7O21BiVoiHb08QAMW.7WjYZw0YfeYUV.O",
-      "timestamp": "2022-05-24T13:44:27.299Z"
-    }
-  ]
+    "nextId": 3,
+    "users": [{
+            "id": 1,
+            "name": "pablo",
+            "email": "pabloemail",
+            "password": "$2b$12$y0kEPy3gb1fcCpQrAA.HxekvDtXUaOmmWZhVB/ybZAHwJPQIdZMw6",
+            "timestamp": "2022-05-24T13:44:04.476Z"
+        },
+        {
+            "id": 2,
+            "name": "Admin",
+            "email": "admin",
+            "password": "$2b$12$LaKhzwNUngRCp6u6HlTu7O21BiVoiHb08QAMW.7WjYZw0YfeYUV.O",
+            "timestamp": "2022-05-24T13:44:27.299Z"
+        }
+    ]
 }

@@ -20,8 +20,8 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 global.logger = winston.createLogger({
     level: "silly",
     transports: [
-        new (winston.transports.Console)(),
-        new (winston.transports.File)({ filename: "base.log" })
+        new(winston.transports.Console)(),
+        new(winston.transports.File)({ filename: "base.log" })
     ],
     format: combine(
         label({ label: "base" }),
@@ -38,7 +38,7 @@ const corsOptions = {
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use(express.static("public"));
+//app.use(express.static("public"));
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
@@ -60,9 +60,14 @@ function checkToken(req, res, next) {
     }
 }
 
+app.use((err, req, res, next) => {
+    logger.error(`${req.method} ${req.baseUrl} - ${arr.message}`)
+    res.status(400).send({ error: err.message })
+})
+
 //http://localhost:3001/login/register
 
-app.listen(3001, async () => {
+app.listen(3001, async() => {
     try {
         await readFile(global.fileName);
         logger.info("API Started!");

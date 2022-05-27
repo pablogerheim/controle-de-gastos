@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { Tabela } from "./page/Tabela";
 import { Resumo } from "./page/Resumo"
 import { arrMes, arrAno, api, signOutEndpoint } from './data/data';
-import { makeStyles } from '@material-ui/core/styles';
 import { MenuItem, Box, Select, InputLabel, Paper, Avatar, TableContainer, Table, Button } from "@material-ui/core";
-import { createStyles, Theme } from '@material-ui/core/styles';
 import { useParams, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { Idados, IarrDados } from "./data/data"
 import "./Home.css"
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -40,12 +39,14 @@ function Home() {
     useEffect(() => {
         setTimeout(() => {
             if (controle === 0 && controleURL === 0) {
-                navigate(`/despesas/${selecAno}-${selecMes}`)
+                navigate(`/month/${selecAno}-${selecMes}`)
             }
             if (controle === 0) {
                 setControle(1)
                 setTimeout(async () => {
-                    setDados(await api(selecAno, selecMes))
+                    let helper = await api(selecAno, selecMes)
+                    if (helper.length) { console.log(helper[1]) }
+                    setDados(helper)
                 }, 500)
             }
             if (`${selecAno}-${selecMes}` !== mes && controle === 1 && mes !== undefined && controleURL === 1) {
@@ -63,6 +64,7 @@ function Home() {
 
     useMemo(() => {
         let valorT: number = 0
+        console.log(dados)
         dados.map((obj: Idados) => valorT += obj.valor)
         setValorTotal(valorT)
     }, [dados])
@@ -85,62 +87,63 @@ function Home() {
         setControleURL(0)
     };
 
-    function handlelogout(): void {signOutEndpoint()} 
+    const classes = useStyles();
+    function handlelogout(): void { signOutEndpoint() }
 
-
-    let detalhes = useMemo(() => Tabela(dados), [dados])
+    let tabela = useMemo(() => Tabela(dados, classes), [dados])
 
     let resumo = useMemo(() => Resumo(dados), [dados])
 
-    const classes = useStyles();
+
     return (
         <><Box display={'flex'} alignItems={'center'} justifyContent={'space-evenly'}>
             <h1>Controle de Gastos</h1>
             <Box display={'flex'} alignItems={'center'} gridGap={'7px'}>
-            <Avatar src="../public/logo512.png" alt="Avatar"/>
-                <Button onClick={() => handlelogout}><a href="/">Sair</a></Button>
+                <Avatar src="../public/logo512.png" alt="Avatar" />
+                <label form="buttonSingout"> nome </label>
+                <Button id="buttonSingout" onClick={() => handlelogout}><a href="/">Sair</a></Button>
             </Box>
         </Box>
-                <TableContainer component={Paper}>
-                    <Box margin="5px 20px"  >
-                        <InputLabel id="demo-simple-select-label">Ano</InputLabel>
-                        <Select
-                            style={{ width: "190px", marginBottom:"10px" }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={selecAno}
-                            onChange={handleChangeAno}
-                        >
-                            {arrAno.map((item, i) => (
-                                <MenuItem key={i} value={item}>{item}</MenuItem>
-                            ))}
-                        </Select>
-                        <InputLabel id="demo-simple-select-label">Mes</InputLabel>
-                        <Select
-                            style={{ width: "190px" }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={selecMes}
-                            onChange={handleChangeMes}
-                        >
-                            {arrMes.map((item, i) => (
-                                <MenuItem key={i} value={i.toString().padStart(2, '0')}>{item}</MenuItem>
-                            ))}
-                        </Select>
-                        <Box style={{ direction: "rtl" }}>
-                            Despesa total: {valorTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                        </Box>
-                    </Box>
-                <Box display={"flex"} justifyContent={"center"} gridGap={'10px'} width={"100%"} boxShadow={' inherit'}
+            <Box margin="5px 20px"  >
+                <InputLabel id="demo-simple-select-label">Ano</InputLabel>
+                <Select
+                    style={{ width: "190px", marginBottom: "10px" }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selecAno}
+                    onChange={handleChangeAno}
+                >
+                    {arrAno.map((item, i) => (
+                        <MenuItem key={i} value={item}>{item}</MenuItem>
+                    ))}
+                </Select>
+                <InputLabel id="demo-simple-select-label">Mes</InputLabel>
+                <Select
+                    style={{ width: "190px" }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selecMes}
+                    onChange={handleChangeMes}
+                >
+                    {arrMes.map((item, i) => (
+                        <MenuItem key={i} value={i.toString().padStart(2, '0')}>{item}</MenuItem>
+                    ))}
+                </Select>
+                <Box style={{ direction: "rtl" }}>
+                    Despesa total: {valorTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                </Box>
+            </Box>
+            <Box display={"flex"} justifyContent={"center"} gridGap={'10px'} width={"100%"} boxShadow={' inherit'}
                 paddingBottom={'7px'} >
-                    <Button variant="contained" id="newSpend" type="button" onClick={() => console.log("ola")}>Novo Gasto</Button>
-                        <Button variant="contained" type="button" onClick={() => setAba(false)}>Resumo</Button>
-                        <Button variant="contained" type="button" onClick={() => setAba(true)}>Detalhes</Button>
-                    </Box>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                        {aba ? detalhes : resumo}
-                    </Table>
-                </TableContainer>
+                <Button variant="contained" id="newSpend" type="button" onClick={() => console.log("ola")}>Novo Gasto</Button>
+                <Button variant="contained" type="button" onClick={() => setAba(false)}>Resumo</Button>
+                <Button variant="contained" type="button" onClick={() => setAba(true)}>Detalhes</Button>
+            </Box>
+            <TableContainer component={Paper}>
+
+                {aba ? tabela : resumo}
+
+            </TableContainer>
         </>
     );
 }
