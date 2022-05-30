@@ -35,7 +35,7 @@ async function compareUser(user, password) {
 async function createToken(user) {
     const secret = 'process.env.SECRET';
     const token = jwt.sign({ id: user._id, }, secret, {
-        expiresIn: 90000 // expires in 15min
+        expiresIn: 90000 // expires in 150min
     });
     return token
 }

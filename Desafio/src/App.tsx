@@ -22,7 +22,7 @@ function App() {
     < >
       <Router>
         <Routes>
-          <Route path="/despesas/:mes" element={<Home />}> </Route>
+            <Route path="/despesas/:mes" element={<Home name={user.name} onSingOut={onSignOut}/>}> </Route>
           <Route path="/" element={<Navigate to={'/despesas/2020-06'} />}/> 
         </Routes>
       </Router>

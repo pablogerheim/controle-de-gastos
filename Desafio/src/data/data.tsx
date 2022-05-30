@@ -32,7 +32,7 @@ interface Idados {
 };
 
 type IarrDados = Idados[];
-let currentIuser : IUser
+let currentIuser : any
 
 async function signInEndpoint(email: string, password: string): Promise<any> {
   let helperPromise = await fetch(`http://localhost:3001/login`, {
@@ -46,36 +46,35 @@ async function signInEndpoint(email: string, password: string): Promise<any> {
     },
     body: JSON.stringify({ email, password }),
   }).then(handleResponse);
-  console.log( helperPromise)
+  console.log(helperPromise)
+  currentIuser = helperPromise
   return helperPromise
 }
 
 
  function handleResponse(resp: any) {
   if (resp.ok) {
-    return resp
+    return resp.json()
   } else {
     throw new Error(resp.statusText);
   }
 }
 
 async function api(selecAno: string, selecMes: string) {
-  // console.log(currentIuser)
-  // let {id, token} = currentIuser
-  // console.log(id)
-  // console.log(token)
-  let url = `http://localhost:3001/private/month/${2}/${selecAno}-${selecMes}`;
+  let helperIuser = currentIuser
+  let {id, token} = currentIuser
+  let url = `http://localhost:3001/private/month/${id}/${selecAno}-${selecMes}`;
   let response = await fetch(url, {
     credentials: "include",
     method: "GET",
     mode: "cors",
     headers: {
-      "Authorization":`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTM1MDE0NDksImV4cCI6MTY1MzU5MTQ0OX0._P3eEDylTdLkjNZUE1WNsc9bTSTAiBZMFKUiuj0tcfU`,
+      "Authorization":`Bearer ${token}`,
       "Content-Type": "application/json; charset = utf-8",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": "true",
     }
-  }).then(handleResponse).then(res => res.json()).then(res =>{ console.log(res); return res});
+  }).then(handleResponse);
  return response
 }
 

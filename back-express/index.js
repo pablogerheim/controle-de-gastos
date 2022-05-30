@@ -61,7 +61,7 @@ function checkToken(req, res, next) {
 }
 
 app.use((err, req, res, next) => {
-    logger.error(`${req.method} ${req.baseUrl} - ${arr.message}`)
+    logger.error(`${req.method} ${req.baseUrl} - ${err.message}`)
     res.status(400).send({ error: err.message })
 })
 

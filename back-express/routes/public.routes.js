@@ -7,10 +7,5 @@ router.post("/register", sessaoController.register);
 router.post("/", sessaoController.login);
 router.delete("/delete/:id",)
 
-router.use((err, req, res, next) => {
-    logger.error(`${req.method} ${req.baseUrl} - ${err.message}`);
-    res.status(400).send({ error: err.message });
-});
-
 export default router;
 

@@ -6,8 +6,10 @@ import { MenuItem, Box, Select, InputLabel, Paper, Avatar, TableContainer, Table
 import { useParams, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { Idados, IarrDados } from "./data/data"
-import "./Home.css"
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import {v4} from 'uuid'
+import  FormDialog  from "./page/dialog";
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,7 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-function Home() {
+function Home({
+    name = '',
+    onSingOut
+}) {
     let { mes } = useParams<{ mes: string }>();
     const navigate = useNavigate();
 
@@ -39,7 +44,7 @@ function Home() {
     useEffect(() => {
         setTimeout(() => {
             if (controle === 0 && controleURL === 0) {
-                navigate(`/month/${selecAno}-${selecMes}`)
+                navigate(`/despesas/${selecAno}-${selecMes}`)
             }
             if (controle === 0) {
                 setControle(1)
@@ -88,19 +93,18 @@ function Home() {
     };
 
     const classes = useStyles();
-    function handlelogout(): void { signOutEndpoint() }
+    function handlelogout(): void { signOutEndpoint(); onSingOut() }
 
-    let tabela = useMemo(() => Tabela(dados, classes), [dados])
+    let tabela = useMemo(() => Tabela(dados), [dados])
 
     let resumo = useMemo(() => Resumo(dados), [dados])
-
-
+    
     return (
         <><Box display={'flex'} alignItems={'center'} justifyContent={'space-evenly'}>
             <h1>Controle de Gastos</h1>
             <Box display={'flex'} alignItems={'center'} gridGap={'7px'}>
                 <Avatar src="../public/logo512.png" alt="Avatar" />
-                <label form="buttonSingout"> nome </label>
+                <label form="buttonSingout"> {name} </label>
                 <Button id="buttonSingout" onClick={() => handlelogout}><a href="/">Sair</a></Button>
             </Box>
         </Box>
@@ -126,7 +130,7 @@ function Home() {
                     onChange={handleChangeMes}
                 >
                     {arrMes.map((item, i) => (
-                        <MenuItem key={i} value={i.toString().padStart(2, '0')}>{item}</MenuItem>
+                        <MenuItem key={v4()} value={i.toString().padStart(2, '0')}>{item}</MenuItem>
                     ))}
                 </Select>
                 <Box style={{ direction: "rtl" }}>
@@ -135,17 +139,20 @@ function Home() {
             </Box>
             <Box display={"flex"} justifyContent={"center"} gridGap={'10px'} width={"100%"} boxShadow={' inherit'}
                 paddingBottom={'7px'} >
-                <Button variant="contained" id="newSpend" type="button" onClick={() => console.log("ola")}>Novo Gasto</Button>
+                <FormDialog />
                 <Button variant="contained" type="button" onClick={() => setAba(false)}>Resumo</Button>
                 <Button variant="contained" type="button" onClick={() => setAba(true)}>Detalhes</Button>
             </Box>
+           
             <TableContainer component={Paper}>
-
-                {aba ? tabela : resumo}
-
+                {aba ? < Table className={classes.table} size="small" aria-label="a dense table" >{tabela}</Table> : resumo}
+                       
             </TableContainer>
         </>
     );
 }
 
 export { Home };
+//{aba ? tabela : resumo}
+//            {if(aba){tabela} else{ }}
+//< Table className={classes.table} size="small" aria-label="a dense table" >{tabela}</Table>
