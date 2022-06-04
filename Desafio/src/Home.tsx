@@ -9,7 +9,7 @@ import { Idados, IarrDados } from "./data/data"
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import {v4} from 'uuid'
 import  FormDialog  from "./page/dialog";
-
+import EventEmitter from "./helper/EventEmitter";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,8 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function Home({
-    name = '',
-    onSingOut
+    name = ''
 }) {
     let { mes } = useParams<{ mes: string }>();
     const navigate = useNavigate();
@@ -37,9 +36,22 @@ function Home({
     const [controle, setControle] = useState<number>(0)
     const [controleURL, setControleURL] = useState<number>(0)
     const [valorTotal, setValorTotal] = useState<number>(0)
-    const [selecMes, setSelecMes] = useState<string>('07')
-    const [selecAno, setSelecAno] = useState<string>('2020')
+    const [selecMes, setSelecMes] = useState<string>('')
+    const [selecAno, setSelecAno] = useState<string>('')
     const [aba, setAba] = useState<Boolean>(false)
+
+    useEffect(()=> {
+        async function helperUpdate() {
+            setControle(0)
+            setDados([])
+        }
+
+        const listner = EventEmitter.addListener('update', helperUpdate )
+
+        return () => {
+            listner.remove()
+        }
+    },[])
 
     useEffect(() => {
         setTimeout(() => {
@@ -49,13 +61,11 @@ function Home({
             if (controle === 0) {
                 setControle(1)
                 setTimeout(async () => {
-                    let helper = await api(selecAno, selecMes)
-                    if (helper.length) { console.log(helper[1]) }
-                    setDados(helper)
+                    setDados(await api(selecAno, selecMes))
+                    console.log(dados.length)
                 }, 500)
             }
             if (`${selecAno}-${selecMes}` !== mes && controle === 1 && mes !== undefined && controleURL === 1) {
-                console.log("URL2")
                 setControle(0)
                 navURL(mes)
             }
@@ -69,7 +79,6 @@ function Home({
 
     useMemo(() => {
         let valorT: number = 0
-        console.log(dados)
         dados.map((obj: Idados) => valorT += obj.valor)
         setValorTotal(valorT)
     }, [dados])
@@ -93,7 +102,7 @@ function Home({
     };
 
     const classes = useStyles();
-    function handlelogout(): void { signOutEndpoint(); onSingOut() }
+    function handlelogout(): void { signOutEndpoint()}
 
     let tabela = useMemo(() => Tabela(dados), [dados])
 
@@ -146,13 +155,9 @@ function Home({
            
             <TableContainer component={Paper}>
                 {aba ? < Table className={classes.table} size="small" aria-label="a dense table" >{tabela}</Table> : resumo}
-                       
             </TableContainer>
         </>
     );
 }
 
 export { Home };
-//{aba ? tabela : resumo}
-//            {if(aba){tabela} else{ }}
-//< Table className={classes.table} size="small" aria-label="a dense table" >{tabela}</Table>

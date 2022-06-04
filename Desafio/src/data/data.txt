@@ -10,17 +10,6 @@ function getEventsEndpoint(from: string, to: string): Promise<IEvent[]> {
   }).then(handleResponse);
 }
 
-function createEventEndpoint(event: IEditingEvent): Promise<IEvent> {
-  return fetch(`http://localhost:3001/events`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(event),
-  }).then(handleResponse);
-}
-
 function updateEventEndpoint(event: IEditingEvent): Promise<IEvent> {
   return fetch(`http://localhost:3001/events/${event.id}`, {
     credentials: "include",
@@ -29,13 +18,6 @@ function updateEventEndpoint(event: IEditingEvent): Promise<IEvent> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(event),
-  }).then(handleResponse);
-}
-
-function deleteEventEndpoint(eventId: number): Promise<void> {
-  return fetch(`http://localhost:3001/events/${eventId}`, {
-    credentials: "include",
-    method: "DELETE",
   }).then(handleResponse);
 }
 
@@ -52,12 +34,3 @@ function signOutEndpoint(): Promise<IUser> {
     method: "POST",
   }).then(handleResponse);
 }
-
-
-
-res.header("Access-Control-Allow-Origin", "*");
-res.header("Access-Control-Allow-Headers", "Origin, X-Request-Width, Content-Type, Accept");
-
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": "true",
-      "X-Powered-By": "Express"

@@ -29,7 +29,6 @@ export function LoginScreen(props: ILoginScreenProps) {
 
   function signIn(evt: React.FormEvent) {
     evt.preventDefault();
-    console.log("signIn");
     signInEndpoint(email, password).then(props.onSignIn,(e) =>
       setError("E-mail não encontrado ou senha incorreta")
     );

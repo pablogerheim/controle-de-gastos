@@ -10,19 +10,14 @@ function App() {
 
   useEffect(() => {
     getUserEndpoint()
-    //.then(setUser, onSignOut);
   }, []);
-
-  function onSignOut() {
-    setUser(null);
-  }
 
   if (user) {
     return (
     < >
       <Router>
         <Routes>
-            <Route path="/despesas/:mes" element={<Home name={user.name} onSingOut={onSignOut}/>}> </Route>
+            <Route path="/despesas/:mes" element={<Home name={user.name} />}> </Route>
           <Route path="/" element={<Navigate to={'/despesas/2020-06'} />}/> 
         </Routes>
       </Router>

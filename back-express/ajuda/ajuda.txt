@@ -1,9 +1,0 @@
-(ok) https://www.youtube.com/watch?v=qEBoZ8lJR3k youtube
-(ok) registrar usuario, logar no app
-(ok) verificar conectividade e buscar total 
-(ok) verificar conectividade e buscar mes especifico
-() deslogar do app
-() implementar mongoDB
-(ok) criar novo gasto
-(ok) deletar gasto
-()problema de cros

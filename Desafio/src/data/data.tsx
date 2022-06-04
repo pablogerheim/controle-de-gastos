@@ -34,6 +34,8 @@ interface Idados {
 type IarrDados = Idados[];
 let currentIuser : any
 
+
+
 async function signInEndpoint(email: string, password: string): Promise<any> {
   let helperPromise = await fetch(`http://localhost:3001/login`, {
     credentials: "include",
@@ -51,17 +53,46 @@ async function signInEndpoint(email: string, password: string): Promise<any> {
   return helperPromise
 }
 
+async function createEventEndpoint(descricao: string, categoria: string, valor: string, mes: string, dia: string): Promise<any> {
+    let {token} = currentIuser
+    await fetch(`http://localhost:3001/private`, {
+    credentials: "include",
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Authorization":`Bearer ${token}`,
+      "Content-Type": "application/json; charset = utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+    },
+    body: JSON.stringify({ descricao, categoria, valor, mes, dia }),
+  }).then(handleResponse);
+}
 
- function handleResponse(resp: any) {
+function deleteEventEndpoint(eventId: number): Promise<void> {
+  let {token} = currentIuser
+  return fetch(`http://localhost:3001/private/${eventId}`, {
+    credentials: "include",
+    method: "DELETE",
+    headers: {
+      "Authorization":`Bearer ${token}`,
+      "Content-Type": "application/json; charset = utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+    },
+  }).then(handleResponse);
+}
+
+function handleResponse(resp: any) {
   if (resp.ok) {
     return resp.json()
   } else {
+    console.log(resp)
     throw new Error(resp.statusText);
   }
 }
 
 async function api(selecAno: string, selecMes: string) {
-  let helperIuser = currentIuser
   let {id, token} = currentIuser
   let url = `http://localhost:3001/private/month/${id}/${selecAno}-${selecMes}`;
   let response = await fetch(url, {
@@ -109,8 +140,9 @@ function useTotal(dados: IarrDados) {
   return obj
 }
 
+const arrCategoria = ["Saúde", "Lazer", "Alimentação", "Moradia", "Transporte", "Outros"]
 const arrMes = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
-const arrAno = ['2020', '2021']
+const arrAno = ['2020', '2021', '2022']
 
 function getUserEndpoint() {
   return false
@@ -122,14 +154,15 @@ function signOutEndpoint() {
 export {
   arrMes,
   arrAno,
+  arrCategoria,
   useTotal,
   api,
   signInEndpoint,
   // getCalendarsEndpoint,
   // getEventsEndpoint,
-  // createEventEndpoint,
+  createEventEndpoint,
   // updateEventEndpoint,
-  // deleteEventEndpoint,
+  deleteEventEndpoint,
   getUserEndpoint,
   signOutEndpoint
 }

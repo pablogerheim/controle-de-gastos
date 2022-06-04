@@ -8,7 +8,6 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "./doc.js"
 import jwt from 'jsonwebtoken'
 
-
 const { readFile, writeFile } = promises;
 
 global.fileName = "base.json";
@@ -38,15 +37,12 @@ const corsOptions = {
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
-//app.use(express.static("public"));
+app.use(express.static("public"));
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-
-//public
 app.use("/login", publicRoute);
-//private
 app.use("/private", checkToken, privateRoute);
-//checkToken,
+
 function checkToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -64,8 +60,6 @@ app.use((err, req, res, next) => {
     logger.error(`${req.method} ${req.baseUrl} - ${err.message}`)
     res.status(400).send({ error: err.message })
 })
-
-//http://localhost:3001/login/register
 
 app.listen(3001, async() => {
     try {
