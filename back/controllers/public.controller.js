@@ -40,7 +40,7 @@ async function login(req, res, next) {
         let account = { id, name, email, token }
         res.status(200).send({ id, name, email, token })
 
-        logger.info(`POST /account - ${JSON.stringify(account)}`);
+        logger.info(`POST /login - ${JSON.stringify(account)}`);
     } catch (err) {
         next(err);
     }

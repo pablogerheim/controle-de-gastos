@@ -6,7 +6,6 @@ const styled = { display: "flex", justifyContent: "space-between", margin: "0px 
 function Resumo(dados: IarrDados) {
 
     let dados1 = useTotal(dados)
-    console.log(dados1)
     if (dados1 === undefined) {
         return <Box> Não foi encontrado valores para este periodo </Box>
     } else return (

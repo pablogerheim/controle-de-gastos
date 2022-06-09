@@ -7,17 +7,25 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import "../Home.css"
 import { FormControl, InputLabel, Select } from '@material-ui/core';
-import { arrCategoria, createEventEndpoint } from "../data/data"
+import { arrCategoria, updateEventEndpoint } from "../data/data"
 import {v4} from 'uuid'
 import { useState } from 'react';
 import EventEmitter from '../helper/EventEmitter';
 
-export default function FormDialog() {
+export default function FormDialog({
+    category = "",
+    description = "",
+    date = "",
+    price = "",
+    id = ""
+}): JSX.Element {
     const [open, setOpen] = useState(false);
-    const [category, setCategory] = useState<any>("");
-    const [description, setDescription] = useState("");
-    const [date, setDate] = useState("");
-    const [price, setPrice] = useState("");
+    const [ccategory, setCategory] = useState<any>(category);
+    const [cdescription, setDescription] = useState(description);
+    const [cdate, setDate] = useState(date);
+    const [cprice, setPrice] = useState(price);
+
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -26,10 +34,10 @@ export default function FormDialog() {
         setOpen(false);
     };
     function handleAdd() {
-        date.split('')
+        cdate.split('')
         let dia = date[8] + date[9]
         let mes = date.slice(0, 7)
-        createEventEndpoint(description, category, price, mes, dia)
+        updateEventEndpoint(cdescription, ccategory, cprice, mes, dia, id)
         setOpen(false)
         EventEmitter.emit('update',{ text: "update" })
     }
@@ -37,9 +45,10 @@ export default function FormDialog() {
         setDescription(params)
     }
     function handleChangeDate(params: string) {
+        console.log(params)
         setDate(params)
     }
-    function handleChangeCategory(params: string | unknown) {
+    function handleChangeCategory(params: any ) {
         setCategory(params)
     }
     function handleChangePrice(params: string) {
@@ -49,16 +58,17 @@ export default function FormDialog() {
     return (
         <div >
             <Button id="newSpend" variant="contained" color="primary" onClick={handleClickOpen}>
-                Novo gasto
+                Atualizar
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Novo Gasto</DialogTitle>
+                <DialogTitle id="form-dialog-title">Atualizar</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Adicione as informações do novo gasto
+                        Adicione as informações do atualizadas
                     </DialogContentText>
                     <TextField
                         autoFocus
+                        value={cdescription}
                         onChange={(e) => handleChangeDescription(e.target.value)}
                         margin="dense"
                         id="name"
@@ -68,11 +78,11 @@ export default function FormDialog() {
                         required
                     />
                     <TextField
+                        value={cdate}
                         id="date"
                         onChange={(e) => handleChangeDate(e.target.value)}
                         label="Data"
                         type="date"
-                        defaultValue=""
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -83,6 +93,7 @@ export default function FormDialog() {
                     <FormControl variant="outlined" id="categoriaid">
                         <InputLabel htmlFor="outlined-Categoria-native-simple">Categoria</InputLabel>
                         <Select
+                            value={ccategory}
                             native
                             onChange={(e) => handleChangeCategory(e.target.value)}
                             fullWidth
@@ -97,7 +108,7 @@ export default function FormDialog() {
                             {arrCategoria.map(item => <option key={v4()} value={item} >{item}</option>)}
                         </Select>
                         <TextField
-                            autoFocus
+                            value={cprice}
                             onChange={(e) => handleChangePrice(e.target.value)}
                             margin="dense"
                             id="valor"

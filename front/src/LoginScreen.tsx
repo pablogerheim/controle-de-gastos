@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 interface ILoginScreenProps {
-  onSignIn: (user: IUser) => void;
+  onSignIn: (user: IUser) => void
 }
 
 export function LoginScreen(props: ILoginScreenProps) {
@@ -29,7 +29,7 @@ export function LoginScreen(props: ILoginScreenProps) {
 
   function signIn(evt: React.FormEvent) {
     evt.preventDefault();
-    signInEndpoint(email, password).then(props.onSignIn,(e) =>
+    signInEndpoint(email, password).then(props.onSignIn, (e) =>
       setError("E-mail não encontrado ou senha incorreta")
     );
   }
@@ -67,11 +67,11 @@ export function LoginScreen(props: ILoginScreenProps) {
             Entrar
           </Button>
         </Box>
-        <Box>
-          <Button><a href="/">Entrar com o Google</a></Button>
-          <Button><a href="/">Entrar com Facebook</a></Button>
-        </Box>
       </form>
     </Container>
   );
 }
+
+
+
+

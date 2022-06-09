@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Tabela } from "./page/Tabela";
 import { Resumo } from "./page/Resumo"
-import { arrMes, arrAno, api, signOutEndpoint } from './data/data';
+import { arrMes, arrAno, api, signOutEndpoint, IUser } from './data/data';
 import { MenuItem, Box, Select, InputLabel, Paper, Avatar, TableContainer, Table, Button } from "@material-ui/core";
 import { useParams, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { Idados, IarrDados } from "./data/data"
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import {v4} from 'uuid'
-import  FormDialog  from "./page/dialog";
+import { v4 } from 'uuid'
+import FormDialog from "./page/dialogCreat";
 import EventEmitter from "./helper/EventEmitter";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -27,8 +27,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function Home({
-    name = ''
-}) {
+    name,
+    email
+}: IUser) {
     let { mes } = useParams<{ mes: string }>();
     const navigate = useNavigate();
 
@@ -40,18 +41,16 @@ function Home({
     const [selecAno, setSelecAno] = useState<string>('')
     const [aba, setAba] = useState<Boolean>(false)
 
-    useEffect(()=> {
+    useEffect(() => {
         async function helperUpdate() {
             setControle(0)
             setDados([])
         }
-
-        const listner = EventEmitter.addListener('update', helperUpdate )
-
+        const listner = EventEmitter.addListener('update', helperUpdate)
         return () => {
             listner.remove()
         }
-    },[])
+    }, [])
 
     useEffect(() => {
         setTimeout(() => {
@@ -62,7 +61,6 @@ function Home({
                 setControle(1)
                 setTimeout(async () => {
                     setDados(await api(selecAno, selecMes))
-                    console.log(dados.length)
                 }, 500)
             }
             if (`${selecAno}-${selecMes}` !== mes && controle === 1 && mes !== undefined && controleURL === 1) {
@@ -102,19 +100,19 @@ function Home({
     };
 
     const classes = useStyles();
-    function handlelogout(): void { signOutEndpoint()}
+    function handlelogout(): void { signOutEndpoint() }
 
     let tabela = useMemo(() => Tabela(dados), [dados])
 
     let resumo = useMemo(() => Resumo(dados), [dados])
-    
+
     return (
         <><Box display={'flex'} alignItems={'center'} justifyContent={'space-evenly'}>
             <h1>Controle de Gastos</h1>
             <Box display={'flex'} alignItems={'center'} gridGap={'7px'}>
-                <Avatar src="../public/logo512.png" alt="Avatar" />
+                <Avatar src={email} alt="Avatar" />
                 <label form="buttonSingout"> {name} </label>
-                <Button id="buttonSingout" onClick={() => handlelogout}><a href="/">Sair</a></Button>
+                <Button id="buttonSingout" onClick={handlelogout}><a href="/">Sair</a></Button>
             </Box>
         </Box>
             <Box margin="5px 20px"  >
@@ -148,11 +146,11 @@ function Home({
             </Box>
             <Box display={"flex"} justifyContent={"center"} gridGap={'10px'} width={"100%"} boxShadow={' inherit'}
                 paddingBottom={'7px'} >
-                <FormDialog />
                 <Button variant="contained" type="button" onClick={() => setAba(false)}>Resumo</Button>
                 <Button variant="contained" type="button" onClick={() => setAba(true)}>Detalhes</Button>
+                <FormDialog />
             </Box>
-           
+
             <TableContainer component={Paper}>
                 {aba ? < Table className={classes.table} size="small" aria-label="a dense table" >{tabela}</Table> : resumo}
             </TableContainer>

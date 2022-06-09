@@ -1,8 +1,8 @@
-import { Box, TableCell, TableRow, TableBody, TableHead, Table, Button } from '@material-ui/core';
-import { Idados, IarrDados, deleteEventEndpoint } from "../data/data"
+import { Box, TableCell, TableRow, TableBody, TableHead, Button } from '@material-ui/core';
+import { Idados, IarrDados, deleteEventEndpoint,  } from "../data/data"
 import { v4 } from 'uuid'
 import EventEmitter from '../helper/EventEmitter';
-
+import  FormDialog  from "./dialogUpdate";
 
 function Tabela(dados: IarrDados) {
 
@@ -20,8 +20,12 @@ function Tabela(dados: IarrDados) {
                 <TableCell align="right">{item.dia}</TableCell>
                 <TableCell align="right">{item.valor.toString().replace('.', ',')}</TableCell>
                 <TableCell align="right">
-                <Button onClick={()=> handlexeclude(item.id)} variant="contained" color='secondary'> Excluir</Button>
+                    <Box display={'flex'} alignItems={'center'} flexDirection={'row'} justifyContent={'right'} >
+                <FormDialog  category={item.categoria} description={item.descricao} date={`${item.mes}-${item.dia}`} price={item.valor.toString()} id={item.id.toString()}/>
+                <Button onClick={()=> handlexeclude(item.id)} style={{ marginLeft: "10px" }} variant="contained" color='secondary'> Excluir</Button>
+                </Box>
                 </TableCell>
+                
             </TableRow>
         );
     }

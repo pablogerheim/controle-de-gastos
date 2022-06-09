@@ -1,5 +1,5 @@
 {
-  "nextId": 510,
+  "nextId": 512,
   "despesas": [
     {
       "id": 1,
@@ -2205,7 +2205,7 @@
       "id": 276,
       "descricao": "Supermercado",
       "categoria": "Alimentação",
-      "valor": 258.58,
+      "valor": 258,
       "mes": "2020-06",
       "dia": "02"
     },
@@ -4003,11 +4003,11 @@
     },
     {
       "id": 504,
-      "descricao": "rrr",
-      "categoria": "Lazer",
-      "valor": 222,
+      "descricao": "testupdate",
+      "categoria": "Saúde",
+      "valor": 444,
       "mes": "2022-07",
-      "dia": "06"
+      "dia": "03"
     },
     {
       "id": 506,
@@ -4036,6 +4036,22 @@
     {
       "id": 509,
       "descricao": "test",
+      "categoria": "Lazer",
+      "valor": 333,
+      "mes": "2022-06",
+      "dia": "15"
+    },
+    {
+      "id": 510,
+      "descricao": "test",
+      "categoria": "Moradia",
+      "valor": 333,
+      "mes": "2022-06",
+      "dia": "15"
+    },
+    {
+      "id": 511,
+      "descricao": "testsss",
       "categoria": "Lazer",
       "valor": 333,
       "mes": "2022-06",

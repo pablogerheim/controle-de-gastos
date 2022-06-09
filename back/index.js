@@ -7,6 +7,7 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "./doc.js"
 import jwt from 'jsonwebtoken'
+import validate from "./helper/helperList.js";
 
 const { readFile, writeFile } = promises;
 
@@ -31,7 +32,8 @@ global.logger = winston.createLogger({
 
 const corsOptions = {
     credentials: true,
-    origin: '*'
+    origin: '*',
+    Accept: "*/*"
 }
 
 const app = express();
@@ -42,11 +44,37 @@ app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/login", publicRoute);
 app.use("/private", checkToken, privateRoute);
-
-function checkToken(req, res, next) {
+app.use("/logout", async(req, res, next) => {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
-    if (!token) return res.status(401).json({ msg: "Acesso negado!" });
+    try {
+        let blaklist = JSON.parse(await readFile("blaklist.json"))
+        let blaktoken = {
+            token,
+            date: new Date
+        }
+        blaklist.blaktokens.forEach((e, i) => {
+            if (!validate(e.date)) { blaklist.blaktokens[i].delete() }
+        });
+
+        blaklist.blaktokens.push(blaktoken)
+        await writeFile("blaklist.json", JSON.stringify(blaklist, null, 2))
+
+
+        res.status(200).json({ msg: "Deslogado com susseso" })
+        logger.info(`POST / Logout `);
+    } catch (err) {
+        next(err);
+    }
+})
+
+async function checkToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token) { return res.status(401).json({ msg: "Acesso negado!" }) }
+    let blaklist = JSON.parse(await readFile("blaklist.json"))
+    let blaktoken = blaklist.blaktokens.find(t => t.token === token)
+    if (blaktoken) { if (blaktoken.token === token) { return res.status(401).json({ msg: "Acesso negado!" }) } }
     try {
         const secret = 'process.env.SECRET';
         jwt.verify(token, secret);
