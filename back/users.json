@@ -1,26 +1,10 @@
 {
-  "nextId": 4,
-  "users": [
-    {
-      "id": 1,
-      "name": "pablo",
-      "email": "pabloemail",
-      "password": "$2b$12$y0kEPy3gb1fcCpQrAA.HxekvDtXUaOmmWZhVB/ybZAHwJPQIdZMw6",
-      "timestamp": "2022-05-24T13:44:04.476Z"
-    },
-    {
-      "id": 2,
-      "name": "Admin",
-      "email": "admin",
-      "password": "$2b$12$LaKhzwNUngRCp6u6HlTu7O21BiVoiHb08QAMW.7WjYZw0YfeYUV.O",
-      "timestamp": "2022-05-24T13:44:27.299Z"
-    },
-    {
-      "id": 3,
-      "name": "pablo",
-      "email": "pablo",
-      "password": "$2b$12$2PLuKuvHkH.QuZd6qqeU/O1v3/sJPnFMWHdkTwmmHpMGSknzNXKl2",
-      "timestamp": "2022-06-09T16:11:18.185Z"
-    }
-  ]
+    "nextId": 2,
+    "users": [{
+        "id": 1,
+        "name": "Admin",
+        "email": "admin",
+        "password": "$2b$12$LaKhzwNUngRCp6u6HlTu7O21BiVoiHb08QAMW.7WjYZw0YfeYUV.O",
+        "timestamp": "2022-05-24T13:44:27.299Z"
+    }]
 }

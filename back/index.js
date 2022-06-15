@@ -90,18 +90,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(3001, async() => {
-    try {
-        await readFile(global.fileName);
-        logger.info("API Started!");
-    } catch (err) {
-        const initialJson = {
-            nextId: 1,
-            accounts: []
-        }
-        writeFile(global.fileName, JSON.stringify(initialJson)).then(() => {
-            logger.info("API Started and File Created!");
-        }).catch(err => {
-            logger.error(err);
-        });
-    }
+    logger.info("API Started!");
 });

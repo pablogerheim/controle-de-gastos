@@ -8,9 +8,4 @@ router.delete("/:id", sessaoController.deleteSpend)
 router.post("/", sessaoController.createSpend)
 router.put("/", sessaoController.updateSpend)
 
-router.use((err, req, res, next) => {
-    logger.error(`${req.method} ${req.baseUrl} - ${err.message}`);
-    res.status(400).send({ error: err.message });
-});
-
 export default router;

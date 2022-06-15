@@ -40,8 +40,6 @@ async function createToken(user) {
     return token
 }
 
-
-
 export default {
     findUser,
     createUser,

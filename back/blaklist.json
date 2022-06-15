@@ -1,16 +1,5 @@
 {
-  "blaktokens": [
-    {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTQ4MDA5MTEsImV4cCI6MTY1NDgwNDUxMX0.sSPkWfAsOSxYpcmwB6X5QV656O49Hy4bzZKi7sX5nzE",
-      "date": "2022-06-09T18:55:36.051Z"
-    },
-    {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTQ4MDEzNzIsImV4cCI6MTY1NDgwNDk3Mn0.hVztEnXUJI5-2xy3d5NYoY5I4TbKZrVCeOLOsJmE9hM",
-      "date": "2022-06-09T19:08:42.193Z"
-    },
-    {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTQ4MDE3MzUsImV4cCI6MTY1NDgwNTMzNX0._6MTbe6WElGy4jWy1wlBysnaZRM-VTx4D3sl0y7fkk0",
-      "date": "2022-06-09T19:10:00.474Z"
-    }
-  ]
+    "blaktokens": [
+
+    ]
 }
