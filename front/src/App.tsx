@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Home } from "./Home";
 import { IUser} from "./data/data";
 import { LoginScreen } from "./LoginScreen";
-import EventEmitter from "./helper/EventEmitter";
+
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null);
@@ -26,7 +26,7 @@ function App() {
 
 export { App }
 
-function res(res: any): any {
-  throw new Error('Function not implemented.');
-}
+// function res(res: any): any {
+//   throw new Error('Function not implemented.');
+// }
 
