@@ -31,10 +31,10 @@ global.logger = winston.createLogger({
 });
 
 const corsOptions = {
-    credentials: true,
-    origin: '*',
-    Accept: "*/*"
-}
+	credentials: true,
+	origin: "http://localhost:3000",
+	Accept: "*/*",
+};
 
 const app = express();
 app.use(express.json());

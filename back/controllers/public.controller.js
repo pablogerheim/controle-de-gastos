@@ -26,14 +26,12 @@ async function login(req, res, next) {
         if (!email || !password) {
             return res.status(422).json({ msg: "O Email e Password são obrigatórios!" });
         }
-
         const user = await baseService.findUser(email);
+        if (!user) { return res.status(404).json({ msg: "Usuário não encontrado!" }) }
         const id = user.id
         const name = user.name
-        if (!user) { return res.status(404).json({ msg: "Usuário não encontrado!" }) }
 
-        const checkPassword = baseService.compareUser(user, password)
-
+        const checkPassword = await baseService.compareUser(user, password)
         if (!checkPassword) { return res.status(422).json({ msg: "password inválida" }) }
 
         const token = await baseService.createToken(user)

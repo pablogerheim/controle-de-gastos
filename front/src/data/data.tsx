@@ -36,16 +36,16 @@ let currentIuser: any
 
 async function signInEndpoint(email: string, password: string): Promise<any> {
   let helperPromise = await fetch(`http://localhost:3001/login`, {
-    credentials: "include",
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json; charset = utf-8",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": "true",
-    },
-    body: JSON.stringify({ email, password }),
-  }).then(handleResponse);
+		credentials: "include",
+		method: "POST",
+		mode: "cors",
+		headers: {
+			"Content-Type": "application/json; charset = utf-8",
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Credentials": "true",
+		},
+		body: JSON.stringify({ email, password }),
+	}).then(handleResponse);
   currentIuser = helperPromise
   return helperPromise
 }
